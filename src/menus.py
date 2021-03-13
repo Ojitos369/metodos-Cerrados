@@ -6,6 +6,7 @@ def principal():
     incorrecto = True
     while incorrecto:
         limpiar()
+        print('https://github.com/Ojitos369/metodos-Cerrados.git')
         opc = input('''1.- Introducir ecuación
 2.- Resolver por bifurcación
 3.- Configurar aproximación
