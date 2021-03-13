@@ -3,17 +3,30 @@ def separacionSumaResta(texto):
     apperturaParentesis = False
     aux = 0
     cantidades = []
-    for i in range(len(texto)):
-        if apperturaParentesis:
-            if texto[i] == '}':
-                apperturaParentesis = False
-        else:
-            if texto[i] == '{':
-                apperturaParentesis = True
-        #print(f'{texto[i]}: {apperturaParentesis}')
-        if (texto[i] == '+' or texto[i] == '-') and not(apperturaParentesis):
-            cantidades.append(aux)
-        aux += 1
+    if '{' in texto:
+        for i in range(len(texto)):
+            if apperturaParentesis:
+                if texto[i] == '}':
+                    apperturaParentesis = False
+            else:
+                if texto[i] == '{':
+                    apperturaParentesis = True
+            #print(f'{texto[i]}: {apperturaParentesis}')
+            if (texto[i] == '+' or texto[i] == '-') and not(apperturaParentesis):
+                cantidades.append(aux)
+            aux += 1
+    else:
+        for i in range(len(texto)):
+            if apperturaParentesis:
+                if texto[i] == ')':
+                    apperturaParentesis = False
+            else:
+                if texto[i] == '(':
+                    apperturaParentesis = True
+            #print(f'{texto[i]}: {apperturaParentesis}')
+            if (texto[i] == '+' or texto[i] == '-') and not(apperturaParentesis):
+                cantidades.append(aux)
+            aux += 1
     cantidades.append(aux)
     if cantidades[0] == 0:
         cantidades.pop(0)
@@ -111,6 +124,8 @@ def separarCorchetes(vector):
 
 def separacionVector(texto,cantidades):
     vector = []
+    #print(texto)
+    #print(cantidades)
     vector.append(texto[:cantidades[0]])
     try:
         for i in range(len(cantidades)):
@@ -144,7 +159,9 @@ def sumaVector(vector):
             else:
                 resultado += float(vector[aux])
         except:
-            resultado += float(vector[aux])
+            try:
+                resultado += float(vector[aux])
+            except:pass
         aux += 1
     return resultado
 
@@ -159,9 +176,7 @@ def solucionPotencias(vector):
             vector[i] = sumaVector(vector[i])
     return vector
 
-def main(texto = '(1)^4-3{-(1)+5}^2-2'):
-    texto = texto.replace(' ','')
-    texto = texto.replace('*','+*')
+def calculos(texto):
     #print(texto)
     cantidades = separacionSumaResta(texto)
     vector = separacionVector(texto,cantidades)
@@ -172,9 +187,16 @@ def main(texto = '(1)^4-3{-(1)+5}^2-2'):
     #print(vector)
     vector = solucionPotencias(vector)
     #print(vector)
+    #print('----------------------------------')
     suma = sumaVector(vector)
     #print(suma)
     return suma
+
+def main(texto = '(1)^4-3{-(1)+5}^2-2'):
+    texto = texto.replace(' ','')
+    texto = texto.replace('*','+*')
+    resultado = calculos(texto)
+    return resultado
 
 def validarFuncion(texto):
     aux = texto.replace('(','{')
@@ -196,4 +218,3 @@ main()
 #x^4-3(-x+5)^2-2
 #(1)^4-3(-(1)+5)^2-2
 #1+5-3(8+1-4)+1-4
-

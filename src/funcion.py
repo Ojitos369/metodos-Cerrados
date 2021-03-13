@@ -46,7 +46,9 @@ def bifurcacion(ax,bx,veces,operacion, no_decimales):
     opc = 1
     limpiar()
     print(f'Funcion {operacion} por bifurcacion')
+    print('------------------------------------')
     for i in range(veces):
+        
         xr = round(((ax+bx)/2),no_decimales)
         aux = operacion.replace('(','{')
         aux = aux.replace(')','}')

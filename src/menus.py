@@ -48,7 +48,7 @@ def pedir_funcion():
                 pass
             else:
                 incorrecto = True
-        incorrecto = validarFuncion(opc)
+        #incorrecto = validarFuncion(opc)
         if incorrecto:
             print('No puedo resolver esa función de momento. Intenta con otra')
             pausar()
