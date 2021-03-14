@@ -143,7 +143,7 @@ def sumaVector(vector):
         restemp = 0
         #print(f'Vector {vector} en aux de suma: {vector[aux]}')
         try:
-            if ('-*' in vector[aux] or '+*' in vector[aux]) and len(vector[aux]) > 5:
+            if (('-*' in vector[aux] or '+*' in vector[aux])or ('-/' in vector[aux] or '+/' in vector[aux])) and len(vector[aux]) > 5:
                 #print(f'Entrada en -* or +* de: {vector[aux]}')
                 try:
                     cantidades = separacionSumaResta(vector[aux])
@@ -156,6 +156,8 @@ def sumaVector(vector):
                 #print(f'Vector Final despues de separacion en suma: {vector[aux]}')
         except: pass
         try:
+            #print('Try 1')
+            #print(f'vector[aux+1]: {vector[aux+1]}')
             if '^' in vector[aux+1]:
                 aux1 = float(vector[aux])
                 aux2 = float(vector[aux+1][2:])
@@ -166,36 +168,82 @@ def sumaVector(vector):
                 resultado += restemp
                 aux += 1
             elif '*' in vector[aux+1]:
-                if '^' in vector[aux+2]:
-                    aux1 = float(vector[aux+1][2:])
-                    aux2 = float(vector[aux+2][2:])
-                    if vector[aux+1][0] == '-':
-                        aux1 *= -1
-                    potencia = pow(aux1,aux2)
-                    restemp = float(vector[aux])*potencia
-                    resultado += restemp
-                    aux += 2
-                else:
-                    aux1 = float(vector[aux])
-                    aux2 = float(vector[aux+1][2:])
+                #print(f'entrada en * in vector[aux+1]')
+                try:
+                    if '^' in vector[aux+2]:
+                        aux1 = vector[aux+1][2:]
+                        aux2 = vector[aux+2][2:]
+                        #print(f'Potencia * aux1: {aux1}; aux2: {aux2}')
+                        aux1 = float(aux1)
+                        aux2 = float(aux2)
+                        if vector[aux+1][0] == '-':
+                            aux1 *= -1
+                        potencia = pow(aux1,aux2)
+                        restemp = float(vector[aux])*potencia
+                        resultado += restemp
+                        aux += 2
+                    else:
+                        #print(f'vector[aux]: {vector[aux]}')
+                        #print(f'vector[aux+1]: {vector[aux+1]}')
+                        aux1 = vector[aux]
+                        aux2 = vector[aux+1][2:]
+                        #print(f'Multipplicacion aux1: {aux1}; aux2: {aux2}')
+                        aux1 = float(aux1)
+                        aux2 = float(aux2)
+                        if vector[aux+1][0] == '-':
+                            aux2 *= -1
+                        restemp = aux1 * aux2
+                        resultado += restemp
+                        aux += 1
+                except:
+                    #print(f'vector[aux]: {vector[aux]}')
+                    #print(f'vector[aux+1]: {vector[aux+1]}')
+                    aux1 = vector[aux]
+                    aux2 = vector[aux+1][2:]
+                    #print(f'Multipplicacion aux1: {aux1}; aux2: {aux2}')
+                    aux1 = float(aux1)
+                    aux2 = float(aux2)
                     if vector[aux+1][0] == '-':
                         aux2 *= -1
                     restemp = aux1 * aux2
                     resultado += restemp
                     aux += 1
             elif '/' in vector[aux+1]:
-                if '^' in vector[aux+2]:
-                    aux1 = float(vector[aux+1][2:])
-                    aux2 = float(vector[aux+2][2:])
-                    if vector[aux+1][0] == '-':
-                        aux1 *= -1
-                    potencia = pow(aux1,aux2)
-                    restemp = float(vector[aux])/potencia
-                    resultado += restemp
-                    aux += 2
-                else:
-                    aux1 = float(vector[aux])
-                    aux2 = float(vector[aux+1][2:])
+                #print(f'entrada en / in vector[aux+1]')
+                try:
+                    if '^' in vector[aux+2]:
+                        aux1 = vector[aux+1][2:]
+                        aux2 = vector[aux+2][2:]
+                        #print(f'Potencia / aux1: {aux1}; aux2: {aux2}')
+                        aux1 = float(aux1)
+                        aux2 = float(aux2)
+                        if vector[aux+1][0] == '-':
+                            aux1 *= -1
+                        potencia = pow(aux1,aux2)
+                        restemp = float(vector[aux])/potencia
+                        resultado += restemp
+                        aux += 2
+                    else:
+                        #print(f'vector[aux]: {vector[aux]}')
+                        #print(f'vector[aux+1]: {vector[aux+1]}')
+                        aux1 = vector[aux]
+                        aux2 = vector[aux+1][2:]
+                        #print(f'Multipplicacion aux1: {aux1}; aux2: {aux2}')
+                        aux1 = float(aux1)
+                        aux2 = float(aux2)
+                        if vector[aux+1][0] == '-':
+                            aux2 *= -1
+                        restemp = aux1 / aux2
+                        resultado += restemp
+                        aux += 1
+                except:
+                    #print(f'vector[aux]: {vector[aux]}')
+                    #print(f'vector[aux+1]: {vector[aux+1]}')
+                    aux1 = vector[aux]
+                    aux2 = vector[aux+1][2:]
+                    #print(f'Multipplicacion aux1: {aux1}; aux2: {aux2}')
+                    aux1 = float(aux1)
+                    aux2 = float(aux2)
                     if vector[aux+1][0] == '-':
                         aux2 *= -1
                     restemp = aux1 / aux2
@@ -237,8 +285,9 @@ def calculos(texto):
     #print(f'Vector separado de corchetes: {vector}')
     vector = separacionParentesis(vector)
     #print(f'Vector separado de parentesis: {vector}')
-    vector = separarCorchetes(vector)
-    #print(vector)
+    for i in range(len(vector)):
+        vector[i] = vector[i].replace('^+*','^')
+        
     vector = solucionPotencias(vector)
     #print(vector)
     #print('----------------------------------')
@@ -249,6 +298,7 @@ def calculos(texto):
 def main(texto = '(1)^4-3{-(1)+5}^2-2'):
     texto = texto.replace(' ','')
     texto = texto.replace('*','+*')
+    texto = texto.replace('/','+/')
     resultado = calculos(texto)
     return resultado
 
