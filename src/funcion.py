@@ -1,46 +1,6 @@
 from math import pow
 from src.extras import limpiar
 from src.operaciones import main as operaciones
-import os
-os.system('clear')
-no_decimales = 5
-""" def funcion(xr):
-    # x^4-3x^2-2
-    a = math.pow(xr,4)
-    b = 3*(math.pow(xr,3))
-    res = a + b -2
-
-    # x^3+2^2-10x-20
-    a = pow(xr,3)
-    b = 2*(pow(xr,2))
-    c = 10 * xr
-    res = a+b-c-20
-
-    # 3x^2+4x-10
-    a = 3*(pow(xr,2))
-    b = 4*xr
-    res = a-b-10
-    res = round(res,no_decimales)
-    return res
-
-def derivada(xr):
-    # x^4-3x^2-2
-    a = math.pow(xr,4)
-    b = 3*(math.pow(xr,3))
-    res = a + b -2
-
-    # x^3+2^2-10x-20
-    a = pow(xr,3)
-    b = 2*(pow(xr,2))
-    c = 10 * xr
-    res = a+b-c-20
-
-    # 3x^2+4x-10
-    a = 3*(pow(xr,2))
-    b = 4*xr
-    res = a-b-10
-    res = round(res,no_decimales)
-    return res """
 
 def bifurcacion(ax,bx,veces,operacion, no_decimales):
     opc = 1
@@ -75,14 +35,25 @@ def bifurcacion(ax,bx,veces,operacion, no_decimales):
                 print(f'Final: ax\tbx\txr\tresultado')
                 print(f'Final: {ax}\t{bx}\t{xr}\t{res}')
                 break
-""" def raphson(x,n):
-    func = funcion(x)
-    deriv = derivada(x)
-    if deriv != 0 and n > 0 and func!=0:
-        x2 = round(x-(func/deriv),no_decimales)
-        print(f'x={x}; funcion={func}')
-        raphson(x2,n-1)
+
+def raphson(funcion,derivada,veces,no_decimales,inicial, n=1):
+    aux = funcion.replace('(','{')
+    aux = aux.replace(')','}')
+    sustitucion = aux.replace('x',f'({inicial})')
+    aux2 = derivada.replace('(','{')
+    aux2 = aux2.replace(')','}')
+    sustitucion2 = aux2.replace('x',f'({inicial})')
+    func = round(operaciones(sustitucion),no_decimales)
+    deriv = round(operaciones(sustitucion2),no_decimales)
+    if deriv != 0 and veces > 0 and func!=0:
+        #print(f'inicial: {inicial}')
+        #print(f'func: {func}')
+        #print(f'deriv: {deriv}')
+        resultado = round(inicial-(func/deriv),no_decimales)
+        #print(f'resultado: {resultado}')
+        print(f'{n}: x={inicial}; funcion={func}')
+        raphson(funcion,derivada,veces-1,no_decimales,resultado,n+1)
     elif deriv == 0:
         print('Derivada da 0')
-    elif n == 0:
-        print('Termino') """
+    elif veces == 0:
+        print('Termino')

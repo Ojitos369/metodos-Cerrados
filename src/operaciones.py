@@ -295,7 +295,7 @@ def calculos(texto):
     #print(suma)
     return suma
 
-def main(texto = '(1)^4-3{-(1)+5}^2-2'):
+def main(texto = '1'):
     texto = texto.replace(' ','')
     texto = texto.replace('*','+*')
     texto = texto.replace('/','+/')
@@ -320,7 +320,11 @@ def validarFuncion(texto):
 
 main()
 #2x-3x^2+4
-#4x^3+4^2-5x
+#2-6x
+
+#4x^3+16-5x
+#12x^2-5
+
 #x^4-3(-x+5)^2-2
 #x^4-3/(-x+5)^2-2
 #(1)^4-3(-(1)+5)^2-2
