@@ -183,6 +183,24 @@ def sumaVector(vector):
                     restemp = aux1 * aux2
                     resultado += restemp
                     aux += 1
+            elif '/' in vector[aux+1]:
+                if '^' in vector[aux+2]:
+                    aux1 = float(vector[aux+1][2:])
+                    aux2 = float(vector[aux+2][2:])
+                    if vector[aux+1][0] == '-':
+                        aux1 *= -1
+                    potencia = pow(aux1,aux2)
+                    restemp = float(vector[aux])/potencia
+                    resultado += restemp
+                    aux += 2
+                else:
+                    aux1 = float(vector[aux])
+                    aux2 = float(vector[aux+1][2:])
+                    if vector[aux+1][0] == '-':
+                        aux2 *= -1
+                    restemp = aux1 / aux2
+                    resultado += restemp
+                    aux += 1
             else:
                 restemp = float(vector[aux])
                 resultado += restemp
@@ -254,5 +272,6 @@ main()
 #2x-3x^2+4
 #4x^3+4^2-5x
 #x^4-3(-x+5)^2-2
+#x^4-3/(-x+5)^2-2
 #(1)^4-3(-(1)+5)^2-2
 #1+5-3(8+1-4)+1-4

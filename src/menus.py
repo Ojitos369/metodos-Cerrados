@@ -35,7 +35,7 @@ def aproximacion(texto):
     return opc
 
 def pedir_funcion():
-    permitidos = 'x*0123456789+-^()'
+    permitidos = 'x/*0123456789+-^()'
     opc = ''
     incorrecto = True
     while incorrecto:
