@@ -135,33 +135,64 @@ def separacionVector(texto,cantidades):
     return vector
 
 def sumaVector(vector):
+    #print(f'Vector de entrada a suma: {vector}')
     resultado = 0
     aux = 0
     n =  len(vector)
     while aux < n:
+        restemp = 0
+        #print(f'Vector {vector} en aux de suma: {vector[aux]}')
+        try:
+            if ('-*' in vector[aux] or '+*' in vector[aux]) and len(vector[aux]) > 5:
+                #print(f'Entrada en -* or +* de: {vector[aux]}')
+                try:
+                    cantidades = separacionSumaResta(vector[aux])
+                    vector[aux] = separacionVector(vector[aux],cantidades)
+                    #print(f'Vector despues de separar: {vector[aux]}')
+                    vector[aux] = sumaVector(vector[aux])
+                except:
+                    pass
+                #print(vector[aux])
+                #print(f'Vector Final despues de separacion en suma: {vector[aux]}')
+        except: pass
         try:
             if '^' in vector[aux+1]:
-                aux1 = vector[aux]
-                aux2 = vector[aux+1][2:]
-                potencia = pow(float(aux1),float(aux2))
-                resultado += potencia
+                aux1 = float(vector[aux])
+                aux2 = float(vector[aux+1][2:])
+                """ if vector[aux][0] == '-':
+                    aux1 *= -1 """
+                potencia = pow(aux1,aux2)
+                restemp = potencia
+                resultado += restemp
                 aux += 1
             elif '*' in vector[aux+1]:
                 if '^' in vector[aux+2]:
-                    aux1 = vector[aux+1][2:]
-                    aux2 = vector[aux+2][2:]
-                    potencia = pow(float(aux1),float(aux2))
-                    resultado += float(vector[aux])*potencia
+                    aux1 = float(vector[aux+1][2:])
+                    aux2 = float(vector[aux+2][2:])
+                    if vector[aux+1][0] == '-':
+                        aux1 *= -1
+                    potencia = pow(aux1,aux2)
+                    restemp = float(vector[aux])*potencia
+                    resultado += restemp
                     aux += 2
                 else:
-                    resultado += float(vector[aux]) * float(vector[aux+1][2:])
+                    aux1 = float(vector[aux])
+                    aux2 = float(vector[aux+1][2:])
+                    if vector[aux+1][0] == '-':
+                        aux2 *= -1
+                    restemp = aux1 * aux2
+                    resultado += restemp
                     aux += 1
             else:
-                resultado += float(vector[aux])
+                restemp = float(vector[aux])
+                resultado += restemp
         except:
             try:
-                resultado += float(vector[aux])
+                restemp = float(vector[aux])
+                resultado += restemp
             except:pass
+        #print(f'Resultado de {vector[aux]}: {restemp}')
+        #print(f'Resultado de la suma despues de {vector[aux]}: {resultado}')
         aux += 1
     return resultado
 
@@ -173,16 +204,21 @@ def solucionPotencias(vector):
             vector[i] = separacionVector(vector[i],cantidades)
             vector[i] = separarCorchetes(vector[i])
             vector[i] = separacionParentesis(vector[i])
+            #print(f'Suma en potencias')
+            #print(f'Vector {vector} separado en potencias: {vector[i]}')
             vector[i] = sumaVector(vector[i])
+            #print(f'Resultado de vector[i] en potencias: {vector[i]}')
     return vector
 
 def calculos(texto):
     #print(texto)
     cantidades = separacionSumaResta(texto)
     vector = separacionVector(texto,cantidades)
-    #print(vector)
+    #print(f'Vector separado: {vector}')
+    vector = separarCorchetes(vector)
+    #print(f'Vector separado de corchetes: {vector}')
     vector = separacionParentesis(vector)
-    #print(vector)
+    #print(f'Vector separado de parentesis: {vector}')
     vector = separarCorchetes(vector)
     #print(vector)
     vector = solucionPotencias(vector)
@@ -215,6 +251,8 @@ def validarFuncion(texto):
     return valida
 
 main()
+#2x-3x^2+4
+#4x^3+4^2-5x
 #x^4-3(-x+5)^2-2
 #(1)^4-3(-(1)+5)^2-2
 #1+5-3(8+1-4)+1-4

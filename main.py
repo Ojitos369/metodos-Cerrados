@@ -8,7 +8,7 @@ from src.funcion import bifurcacion
 
 def main():
     mostrar_menu = True
-    hay_funcion = False
+    hay_funcion = True
     no_decimales = 5
     aproximacion = 10
     funcion = ''
